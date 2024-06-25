@@ -12,4 +12,6 @@ COPY ./docker/php/conf.d /usr/local/etc/php/conf.d
 
 FROM php_base AS php
 COPY --from=composer /usr/bin/composer /usr/bin/composer
-RUN apt-get update && apt-get install -y supervisor git unzip && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y libzip-dev libpng-dev libjpeg-dev libfreetype-dev supervisor git unzip && rm -rf /var/lib/apt/lists/* \
+     && docker-php-ext-configure gd --with-freetype --with-jpeg && docker-php-ext-install gd zip pdo_mysql exif
+
