@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace TomaszBartusiakRekrutacjaSmartiveapp;
 
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\HttpKernel\Kernel as BaseKernel;
