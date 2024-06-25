@@ -1,0 +1,36 @@
+services:
+  php:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+      target: php
+      args:
+        LOCAL_UID: ${LOCAL_UID:-0}
+        LOCAL_GID: ${LOCAL_GID:-0}
+    working_dir: /var/www/app
+    restart: unless-stopped
+    volumes:
+      - .:/var/www/app
+    hostname: php
+    user: www-data
+    networks:
+      - default
+    depends_on:
+      - db
+
+  db:
+    image: mariadb:11.4
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    working_dir: /var/lib/mysql
+    ports:
+      - 3306:3306
+    volumes:
+      - db-data:/var/lib/mysql
+
+volumes:
+  db-data:
