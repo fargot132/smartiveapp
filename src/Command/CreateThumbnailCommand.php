@@ -8,8 +8,13 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use TomaszBartusiakRekrutacjaSmartiveapp\Dto\CreateThumbnailDto;
-use TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail\CreateThumbnailService;
+use TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail\Dto\ThumbnailUploadDto;
+use TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail\Exception\SourceImageFileSystemException;
+use TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail\Exception\SourceImageNotFoundException;
+use TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail\ThumbnailService;
+use TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail\Dto\ThumbnailDto;
+use TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail\Enum\ThumbnailDestination;
+use TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail\ThumbnailUploaderInterface;
 
 #[AsCommand(
     name: 'create-thumbnail',
@@ -17,33 +22,53 @@ use TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail\CreateThumbnailS
 )]
 class CreateThumbnailCommand extends Command
 {
-    public function __construct(private CreateThumbnailService $createThumbnailService)
-    {
+    public function __construct(
+        private ThumbnailService $createThumbnailService,
+        private ThumbnailUploaderInterface $thumbnailUploader
+    ) {
         parent::__construct();
     }
 
     protected function configure(): void
     {
         $this
-            ->addArgument('imagePath', InputArgument::REQUIRED, 'Source image path')
-            ->addArgument('thumbnailDestination',InputArgument::REQUIRED, 'Thumbnail destination path');
+            ->addArgument('imageFileName', InputArgument::REQUIRED, 'Source image file name')
+            ->addArgument('thumbnailDestination', InputArgument::REQUIRED, 'Thumbnail destination file_system|sftp');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $imagePath = $input->getArgument('imagePath');
+        $imageFileName = $input->getArgument('imageFileName');
         $thumbnailDestination = $input->getArgument('thumbnailDestination');
 
-        $createThumbnailDto = new CreateThumbnailDto($imagePath, 200, 200);
-        $thumbnailPath = $this->createThumbnailService->create($createThumbnailDto);
+        $destination = ThumbnailDestination::tryFrom($thumbnailDestination);
+        if (null === $destination) {
+            $io->error('Invalid thumbnail destination: ' . $thumbnailDestination);
 
-        // copy thumbnail to destination
-        copy($thumbnailPath, $thumbnailDestination);
+            return Command::FAILURE;
+        }
 
-        $io->success('Thumbnail created at: ' . $thumbnailPath);
+        $createThumbnailDto = new ThumbnailDto($imageFileName, 200, 200);
+        try {
+            $thumbnailPath = $this->createThumbnailService->create($createThumbnailDto);
+        } catch (SourceImageNotFoundException|SourceImageFileSystemException $e) {
+            $io->error($e->getMessage());
 
-        $io->success('You have a new command! Now make it your own! Pass --help to see your options.');
+            return Command::FAILURE;
+        }
+
+        try {
+            $this->thumbnailUploader->upload(
+                new ThumbnailUploadDto($thumbnailPath, $imageFileName, $destination)
+            );
+        } catch (\Exception $e) {
+            $io->error('Failed to upload thumbnail: ' . $e->getMessage());
+
+            return Command::FAILURE;
+        }
+
+        $io->success('Thumbnail created and uploaded successfully');
 
         return Command::SUCCESS;
     }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace TomaszBartusiakRekrutacjaSmartiveapp\Enum;
+namespace TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail\Enum;
 
 enum ImageResizeMode: string
 {

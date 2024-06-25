@@ -4,6 +4,15 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
+    source.image.path: '%kernel.project_dir%/%env(SOURCE_IMAGE_PATH)%'
+    thumbnail.image.path: '%env(THUMBNAIL_IMAGE_PATH)%'
+    sftp.host: '%env(SFTP_HOST)%'
+    sftp.port: '%env(SFTP_PORT)%'
+    sftp.auth.type: '%env(SFTP_AUTH_TYPE)%'
+    sftp.key.file: '%env(SFTP_KEY_FILE)%'
+    sftp.username: '%env(SFTP_USERNAME)%'
+    sftp.password: '%env(SFTP_PASSWORD)%'
+    sftp.upload.dir: '%env(SFTP_UPLOAD_DIR)%'
 
 services:
     # default configuration for services in *this* file
@@ -19,7 +28,38 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
-            - '../src/Dto/'
+            - '../src/**/Dto/'
+
+    TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail\Adapter\Glide\GlideAdapter:
+        arguments:
+            $sourceImageDirectory: '%source.image.path%'
+            $cacheDirectory: '%kernel.project_dir%/var/cache/glide'
 
     TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail\ImageResizeInterface:
-        alias: 'TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail\Glide\GlideAdapter'
+        alias: 'TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail\Adapter\Glide\GlideAdapter'
+
+    TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail\ThumbnailService:
+        arguments:
+            $imageServer: '@TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail\ImageResizeInterface'
+
+    TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail\ThumbnailInterface:
+        alias: 'TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail\ThumbnailService'
+
+    TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail\Adapter\FileSystem\FileSystemAdapter:
+        arguments:
+            $filesystem: '@Symfony\Component\Filesystem\Filesystem'
+            $thumbnailImagePath: '%thumbnail.image.path%'
+
+    TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail\Adapter\Sftp\SftpAdapter:
+        arguments:
+            $sftpClientFactory: '@TomaszBartusiakRekrutacjaSmartiveapp\Service\Sftp\SftpClientFactory'
+            $host: '%sftp.host%'
+            $port: '%sftp.port%'
+            $authType: '%sftp.auth.type%'
+            $keyFile: '%sftp.key.file%'
+            $username: '%sftp.username%'
+            $password: '%sftp.password%'
+            $uploadDirectory: '%sftp.upload.dir%'
+
+    TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail\ThumbnailUploaderInterface:
+        alias: 'TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail\ThumbnailUploaderService'

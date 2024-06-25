@@ -2,23 +2,17 @@
 
 declare(strict_types=1);
 
-namespace TomaszBartusiakRekrutacjaSmartiveapp\Dto;
+namespace TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail\Dto;
 
-use TomaszBartusiakRekrutacjaSmartiveapp\Enum\ImageResizeMode;
+use TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail\Enum\ImageResizeMode;
 
-class CreateThumbnailDto
+class ImageResizeOptionsDto
 {
     public function __construct(
-        private string $sourceImagePath,
         private int $width,
         private int $height,
-        private ImageResizeMode $mode = ImageResizeMode::FIT
+        private ImageResizeMode $mode
     ) {
-    }
-
-    public function getSourceImagePath(): string
-    {
-        return $this->sourceImagePath;
     }
 
     public function getWidth(): int

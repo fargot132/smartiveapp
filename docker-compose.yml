@@ -17,6 +17,7 @@ services:
       - default
     depends_on:
       - db
+      - sftp
 
   db:
     image: mariadb:11.4
@@ -31,6 +32,13 @@ services:
       - 3306:3306
     volumes:
       - db-data:/var/lib/mysql
+
+  sftp:
+    image: "emberstack/sftp"
+    ports:
+      - "2222:22"
+    volumes:
+      - ./docker/sftp/sftp.json:/app/config/sftp.json:ro
 
 volumes:
   db-data:

@@ -2,12 +2,13 @@
 
 declare(strict_types=1);
 
-namespace TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail\Glide;
+namespace TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail\Adapter\Glide;
 
 use League\Glide\Filesystem\FileNotFoundException;
 use League\Glide\Filesystem\FilesystemException;
-use TomaszBartusiakRekrutacjaSmartiveapp\Dto\ImageResizeOptions;
-use TomaszBartusiakRekrutacjaSmartiveapp\Enum\ImageResizeMode;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail\Dto\ImageResizeOptionsDto;
+use TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail\Enum\ImageResizeMode;
 use TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail\Exception\SourceImageFileSystemException;
 use TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail\Exception\SourceImageNotFoundException;
 use TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail\ImageResizeInterface;
@@ -18,22 +19,28 @@ class GlideAdapter implements ImageResizeInterface
     public const string GLIDE_MODE_STRETCH = 'stretch';
     public const string GLIDE_MODE_CONTAIN = 'contain';
 
-    public function __construct(private GlideServerFactory $glideServerFactory)
-    {
+    public function __construct(
+        private GlideServerFactory $glideServerFactory,
+        private string $sourceImageDirectory,
+        private string $cacheDirectory
+    ) {
     }
 
     /**
      * @throws SourceImageFileSystemException
      * @throws SourceImageNotFoundException
      */
-    public function resize(string $sourceImagePath, ImageResizeOptions $options): string
+    public function resize(string $sourceImagePath, ImageResizeOptionsDto $options): string
     {
         try {
-            return $this->glideServerFactory->make()->makeImage($sourceImagePath, [
+            $glideServer = $this->glideServerFactory->make($this->sourceImageDirectory, $this->cacheDirectory);
+            $filePath = $glideServer->makeImage($sourceImagePath, [
                 'w' => $options->getWidth(),
                 'h' => $options->getHeight(),
                 'fit' => $this->convertModeToGlideMode($options)
             ]);
+
+            return $this->cacheDirectory . '/' . $filePath;
         } catch (FileNotFoundException $exception) {
             throw new SourceImageNotFoundException($exception->getMessage());
         } catch (FilesystemException $e) {
@@ -41,7 +48,7 @@ class GlideAdapter implements ImageResizeInterface
         }
     }
 
-    private function convertModeToGlideMode(ImageResizeOptions $options): string
+    private function convertModeToGlideMode(ImageResizeOptionsDto $options): string
     {
         return match ($options->getMode()) {
             ImageResizeMode::CROP => self::GLIDE_MODE_CROP,
