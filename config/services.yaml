@@ -53,7 +53,7 @@ services:
 
     TomaszBartusiakRekrutacjaSmartiveapp\Module\ThumbnailUploader\Infrastructure\Adapter\Sftp\SftpAdapter:
         arguments:
-            $sftpClientFactory: '@TomaszBartusiakRekrutacjaSmartiveapp\Service\Sftp\SftpClientFactory'
+            $sftpClientFactory: '@TomaszBartusiakRekrutacjaSmartiveapp\Module\Sftp\Application\Service\SftpClientFactory'
             $host: '%sftp.host%'
             $port: '%sftp.port%'
             $authType: '%sftp.auth.type%'

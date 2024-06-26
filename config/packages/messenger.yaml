@@ -19,7 +19,6 @@ framework:
 
 
         routing:
-            TomaszBartusiakRekrutacjaSmartiveapp\Module\Thumbnail\Application\Command\CreateThumbnailCommand: sync
             TomaszBartusiakRekrutacjaSmartiveapp\Module\Thumbnail\Domain\Event\ThumbnailCreatedEvent: [sync, async]
 
 # when@test:

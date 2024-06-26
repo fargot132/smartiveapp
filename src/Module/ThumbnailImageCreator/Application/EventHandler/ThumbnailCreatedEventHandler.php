@@ -48,9 +48,12 @@ class ThumbnailCreatedEventHandler
                 . ' :' . $e->getMessage()
             );
             $this->eventBus->dispatch(new ThumbnailImageFailedEvent($thumbnail->getId(), $e->getMessage()));
+
             return;
         }
 
-        $this->eventBus->dispatch(new ThumbnailImageCreatedEvent($thumbnail->getId(), $thumbnailPath));
+        $this->eventBus->dispatch(
+            new ThumbnailImageCreatedEvent($thumbnail->getId(), $thumbnailPath)
+        );
     }
 }
