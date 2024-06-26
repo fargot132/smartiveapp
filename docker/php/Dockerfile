@@ -14,6 +14,8 @@ RUN apt-get update && apt-get install -y libzip-dev libpng-dev libjpeg-dev libfr
 
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 COPY ./docker/php/conf.d /usr/local/etc/php/conf.d
+COPY ./docker/php/supervisord/supervisord.conf /etc/supervisord.conf
+COPY ./docker/php/supervisord/conf.d/ /etc/supervisord/conf.d/
 COPY ./docker/php/php-entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/php-entrypoint.sh
 RUN adduser www-data sudo && echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
