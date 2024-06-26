@@ -3,22 +3,22 @@ set -e
 
 if [[ -z "$*" ]]; then
 
-    if [[ -f "composer.json" ]]; then
-        echo "Installing dependencies"
-        composer install
+  if [[ -f "composer.json" ]]; then
+    echo "Installing dependencies"
+    composer install
 
-    fi
+  fi
 
-    if [[ -f "bin/console" ]]; then
-       echo "Running migrations"
-        php bin/console doctrine:migrations:migrate --no-interaction
-    fi
-    
-    echo "Running SUPERVISORD"
-    sudo supervisord -c /etc/supervisord.conf
+  if [[ -f "bin/console" ]]; then
+    echo "Running migrations"
+    php bin/console doctrine:migrations:migrate --no-interaction
+  fi
 
-    echo "Running PHP-FPM"
-    exec php-fpm
+  echo "Running SUPERVISORD"
+  sudo supervisord -c /etc/supervisord.conf
+
+  echo "Running PHP-FPM"
+  exec php-fpm
 else
-    exec "$@"
+  exec "$@"
 fi

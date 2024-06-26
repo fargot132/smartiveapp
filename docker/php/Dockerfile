@@ -9,6 +9,9 @@ RUN if [ ${LOCAL_UID:-0} -ne 0 ] && [ ${LOCAL_GID:-0} -ne 0 ]; then \
 ;fi
 
 COPY ./docker/php/conf.d /usr/local/etc/php/conf.d
+COPY ./docker/php/php-entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/php-entrypoint.sh
+ENTRYPOINT ["php-entrypoint.sh"]
 
 FROM php_base AS php
 COPY --from=composer /usr/bin/composer /usr/bin/composer
