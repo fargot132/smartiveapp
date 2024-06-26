@@ -6,19 +6,13 @@ namespace TomaszBartusiakRekrutacjaSmartiveapp\Module\ThumbnailImageCreator\Appl
 
 use TomaszBartusiakRekrutacjaSmartiveapp\Module\ThumbnailImageCreator\Application\Enum\ImageResizeMode;
 
-class ThumbnailDto
+class ImageResizeOptionsDto
 {
     public function __construct(
-        private string $imageFileName,
         private int $width,
         private int $height,
-        private ImageResizeMode $mode = ImageResizeMode::FIT
+        private ImageResizeMode $mode
     ) {
-    }
-
-    public function getImageFileName(): string
-    {
-        return $this->imageFileName;
     }
 
     public function getWidth(): int

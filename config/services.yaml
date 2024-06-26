@@ -36,22 +36,22 @@ services:
             $sourceImageDirectory: '%source.image.path%'
             $cacheDirectory: '%kernel.project_dir%/var/cache/glide'
 
-    TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail\ImageResizeInterface:
+    TomaszBartusiakRekrutacjaSmartiveapp\Module\ThumbnailImageCreator\Application\Service\ImageResizeInterface:
         alias: 'TomaszBartusiakRekrutacjaSmartiveapp\Module\ThumbnailImageCreator\Infrastructure\Adapter\Glide\GlideAdapter'
 
     TomaszBartusiakRekrutacjaSmartiveapp\Module\ThumbnailImageCreator\Application\Service\ThumbnailService:
         arguments:
-            $imageServer: '@TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail\ImageResizeInterface'
+            $imageServer: '@TomaszBartusiakRekrutacjaSmartiveapp\Module\ThumbnailImageCreator\Application\Service\ImageResizeInterface'
 
     TomaszBartusiakRekrutacjaSmartiveapp\Module\ThumbnailImageCreator\Application\Service\ThumbnailInterface:
         alias: 'TomaszBartusiakRekrutacjaSmartiveapp\Module\ThumbnailImageCreator\Application\Service\ThumbnailService'
 
-    TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail\Adapter\FileSystem\FileSystemAdapter:
+    TomaszBartusiakRekrutacjaSmartiveapp\Module\ThumbnailUploader\Infrastructure\Adapter\FileSystem\FileSystemAdapter:
         arguments:
             $filesystem: '@Symfony\Component\Filesystem\Filesystem'
             $thumbnailImagePath: '%thumbnail.image.path%'
 
-    TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail\Adapter\Sftp\SftpAdapter:
+    TomaszBartusiakRekrutacjaSmartiveapp\Module\ThumbnailUploader\Infrastructure\Adapter\Sftp\SftpAdapter:
         arguments:
             $sftpClientFactory: '@TomaszBartusiakRekrutacjaSmartiveapp\Service\Sftp\SftpClientFactory'
             $host: '%sftp.host%'
@@ -62,5 +62,5 @@ services:
             $password: '%sftp.password%'
             $uploadDirectory: '%sftp.upload.dir%'
 
-    TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail\ThumbnailUploaderInterface:
-        alias: 'TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail\ThumbnailUploaderService'
+    TomaszBartusiakRekrutacjaSmartiveapp\Module\ThumbnailUploader\Application\Service\ThumbnailUploaderInterface:
+        alias: 'TomaszBartusiakRekrutacjaSmartiveapp\Module\ThumbnailUploader\Application\Service\ThumbnailUploaderService'

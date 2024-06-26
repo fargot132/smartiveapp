@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace TomaszBartusiakRekrutacjaSmartiveapp\Module\ThumbnailImageCreator\Application\Service;
 
+use TomaszBartusiakRekrutacjaSmartiveapp\Module\ThumbnailImageCreator\Application\Dto\ImageResizeOptionsDto;
 use TomaszBartusiakRekrutacjaSmartiveapp\Module\ThumbnailImageCreator\Application\Dto\ThumbnailDto;
-use TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail\Dto\ImageResizeOptionsDto;
-use TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail\Exception\SourceImageFileSystemException;
-use TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail\Exception\SourceImageNotFoundException;
-use TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail\ImageResizeInterface;
+use TomaszBartusiakRekrutacjaSmartiveapp\Module\ThumbnailImageCreator\Application\Exception\SourceImageFileSystemException;
+use TomaszBartusiakRekrutacjaSmartiveapp\Module\ThumbnailImageCreator\Application\Exception\SourceImageNotFoundException;
 
 class ThumbnailService implements ThumbnailInterface
 {
