@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace TomaszBartusiakRekrutacjaSmartiveapp\Module\Shared\Domain\ValueObject;
 
-
 use InvalidArgumentException;
 
 class PositiveIntegerVO extends IntegerVO

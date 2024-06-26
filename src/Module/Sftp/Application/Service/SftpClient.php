@@ -145,7 +145,7 @@ class SftpClient
      */
     public function upload(string $remoteFile, string $data): void
     {
-       if ($this->sftp->put($remoteFile, $data) === false) {
+        if ($this->sftp->put($remoteFile, $data) === false) {
             throw new UploadFailedException('Failed to upload file ' . $remoteFile);
         }
     }
@@ -170,6 +170,7 @@ class SftpClient
 
     /**
      * @throws ListDirFailedException
+     * @return array<string>
      */
     public function listDir(string $dir = '.'): array
     {
@@ -195,7 +196,7 @@ class SftpClient
     /**
      * @throws CreateDirFailedException
      */
-    public function createDir($dir): void
+    public function createDir(string $dir): void
     {
         if ($this->sftp->mkdir($dir) === false) {
             throw new CreateDirFailedException('Failed to create directory ' . $dir);

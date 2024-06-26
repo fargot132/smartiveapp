@@ -18,8 +18,7 @@ class UpdateThumbnailUploadedCommandHandler
     public function __construct(
         private ThumbnailRepositoryInterface $thumbnailRepository,
         private MessageBusInterface $eventBus
-    )
-    {
+    ) {
     }
 
     /**

@@ -15,6 +15,9 @@ class ThumbnailServiceTest extends KernelTestCase
 {
     private ThumbnailService $thumbnailService;
 
+    /**
+     * @return array<string, array{thumbnailDto: ThumbnailDto, thumbnailFile: string}>
+     */
     public function provideCreateThumbnail(): array
     {
         return [
@@ -61,7 +64,6 @@ class ThumbnailServiceTest extends KernelTestCase
         $this->assertStringContainsString('var/cache/test/glide/', $thumbnailPath);
         $this->assertFileExists($thumbnailPath);
         $this->assertFileEquals(__DIR__ . '/TestData/' . $thumbnailFile, $thumbnailPath);
-
     }
 
     /**

@@ -34,6 +34,4 @@ class ThumbnailRepository extends ServiceEntityRepository implements ThumbnailRe
         $em = $this->getEntityManager();
         $em->flush();
     }
-
-
 }

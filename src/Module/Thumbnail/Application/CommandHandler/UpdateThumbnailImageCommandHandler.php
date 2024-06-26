@@ -18,8 +18,7 @@ class UpdateThumbnailImageCommandHandler
     public function __construct(
         private ThumbnailRepositoryInterface $thumbnailRepository,
         private MessageBusInterface $eventBus
-    )
-    {
+    ) {
     }
 
     public function __invoke(UpdateThumbnailImageCommand $command): void

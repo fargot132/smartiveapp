@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TomaszBartusiakRekrutacjaSmartiveapp\Tests\Unit\Module\Thumbnail\Application\CommandHandler;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Messenger\Envelope;
 use TomaszBartusiakRekrutacjaSmartiveapp\Module\Thumbnail\Application\Command\UpdateThumbnailFailedCommand;
@@ -16,9 +17,9 @@ use Symfony\Component\Messenger\MessageBusInterface;
 
 class UpdateThumbnailFailedCommandHandlerTest extends TestCase
 {
-    private $thumbnailRepository;
-    private $eventBus;
-    private $handler;
+    private ThumbnailRepositoryInterface&MockObject $thumbnailRepository;
+    private MessageBusInterface&MockObject $eventBus;
+    private UpdateThumbnailFailedCommandHandler $handler;
 
     protected function setUp(): void
     {
@@ -45,7 +46,7 @@ class UpdateThumbnailFailedCommandHandlerTest extends TestCase
             ->method('update')
             ->with($thumbnail)
             ->willReturnCallback(function (Thumbnail $thumbnail) {
-               $this->assertEquals(ThumbnailStatus::FAILED, $thumbnail->getStatus());
+                $this->assertEquals(ThumbnailStatus::FAILED, $thumbnail->getStatus());
                 $this->assertEquals('Error message', $thumbnail->getErrorMessage()->value());
             });
 

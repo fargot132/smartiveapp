@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TomaszBartusiakRekrutacjaSmartiveapp\Tests\Unit\Module\Thumbnail\Application\CommandHandler;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\MessageBusInterface;
@@ -16,11 +17,11 @@ use TomaszBartusiakRekrutacjaSmartiveapp\Module\Thumbnail\Domain\ThumbnailReposi
 
 class CreateThumbnailCommandHandlerTest extends TestCase
 {
-    private $thumbnailRepository;
+    private ThumbnailRepositoryInterface&MockObject $thumbnailRepository;
 
-    private $eventBus;
+    private MessageBusInterface&MockObject $eventBus;
 
-    private $handler;
+    private CreateThumbnailCommandHandler $handler;
 
     protected function setUp(): void
     {

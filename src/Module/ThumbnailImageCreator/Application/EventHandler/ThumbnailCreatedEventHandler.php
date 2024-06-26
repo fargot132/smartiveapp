@@ -42,7 +42,7 @@ class ThumbnailCreatedEventHandler
 
         try {
             $thumbnailPath = $this->createThumbnailService->create($createThumbnailDto);
-        } catch (SourceImageNotFoundException|SourceImageFileSystemException $e) {
+        } catch (SourceImageNotFoundException | SourceImageFileSystemException $e) {
             $this->logger->error(
                 'Failed to create thumbnail for image ' . $createThumbnailDto->getImageFileName()
                 . ' :' . $e->getMessage()
