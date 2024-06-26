@@ -44,7 +44,7 @@ class ThumbnailCreateCommand extends Command
             return Command::FAILURE;
         }
 
-        $id = $this->commandBus->command(new CreateThumbnailCommand($imageFileName, 200, 200, $destination));
+        $id = $this->commandBus->command(new CreateThumbnailCommand($imageFileName, 150, 150, $destination));
 
         $io->title('Thumbnail queued for creation');
         $io->success('Thumbnail id: ' . $id);
