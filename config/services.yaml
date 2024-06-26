@@ -31,6 +31,10 @@ services:
             - '../src/**/Dto/'
             - '../src/**/Migrations/'
 
+    _instanceof:
+        TomaszBartusiakRekrutacjaSmartiveapp\Module\ThumbnailUploader\Application\Service\ThumbnailUploadAdapterInterface:
+            tags: ['thumbnail.upload.adapter']
+
     TomaszBartusiakRekrutacjaSmartiveapp\Module\ThumbnailImageCreator\Infrastructure\Adapter\Glide\GlideAdapter:
         arguments:
             $sourceImageDirectory: '%source.image.path%'
@@ -64,3 +68,5 @@ services:
 
     TomaszBartusiakRekrutacjaSmartiveapp\Module\ThumbnailUploader\Application\Service\ThumbnailUploaderInterface:
         alias: 'TomaszBartusiakRekrutacjaSmartiveapp\Module\ThumbnailUploader\Application\Service\ThumbnailUploaderService'
+
+

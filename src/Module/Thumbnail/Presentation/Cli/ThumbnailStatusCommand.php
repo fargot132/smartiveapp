@@ -48,6 +48,7 @@ class ThumbnailStatusCommand extends Command
             return Command::FAILURE;
         }
 
+        $io->title('Thumbnail status');
         switch ($thumbnail->getStatus()) {
             case ThumbnailStatus::CREATED:
                 $io->warning('Thumbnail status: CREATED');

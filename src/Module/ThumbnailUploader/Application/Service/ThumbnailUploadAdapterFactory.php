@@ -7,20 +7,17 @@ namespace TomaszBartusiakRekrutacjaSmartiveapp\Module\ThumbnailUploader\Applicat
 use TomaszBartusiakRekrutacjaSmartiveapp\Module\Thumbnail\Domain\Enum\ThumbnailDestination;
 use TomaszBartusiakRekrutacjaSmartiveapp\Module\ThumbnailUploader\Infrastructure\Adapter\FileSystem\FileSystemAdapter;
 use TomaszBartusiakRekrutacjaSmartiveapp\Module\ThumbnailUploader\Infrastructure\Adapter\Sftp\SftpAdapter;
+use TomaszBartusiakRekrutacjaSmartiveapp\Module\ThumbnailUploader\Infrastructure\Adapter\ThumbnailUploadAdapterCollection;
 
 class ThumbnailUploadAdapterFactory
 {
     public function __construct(
-        private FileSystemAdapter $fileSystemAdapter,
-        private SftpAdapter $sftpAdapter,
+        private ThumbnailUploadAdapterCollection $thumbnailUploadAdapterCollection,
     ) {
     }
 
     public function create(ThumbnailDestination $destination): ThumbnailUploadAdapterInterface
     {
-        return match ($destination) {
-            ThumbnailDestination::FILE_SYSTEM => $this->fileSystemAdapter,
-            ThumbnailDestination::SFTP => $this->sftpAdapter,
-        };
+        return $this->thumbnailUploadAdapterCollection->getAdapter($destination->value);
     }
 }

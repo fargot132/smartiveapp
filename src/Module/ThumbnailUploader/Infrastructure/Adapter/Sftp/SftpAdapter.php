@@ -10,6 +10,7 @@ use TomaszBartusiakRekrutacjaSmartiveapp\Module\Sftp\Application\Exception\Chang
 use TomaszBartusiakRekrutacjaSmartiveapp\Module\Sftp\Application\Exception\UploadFailedException;
 use TomaszBartusiakRekrutacjaSmartiveapp\Module\Sftp\Application\Service\SftpClient;
 use TomaszBartusiakRekrutacjaSmartiveapp\Module\Sftp\Application\Service\SftpClientFactory;
+use TomaszBartusiakRekrutacjaSmartiveapp\Module\Thumbnail\Domain\Enum\ThumbnailDestination;
 use TomaszBartusiakRekrutacjaSmartiveapp\Module\ThumbnailUploader\Application\Exception\UploadThumbnailFailedException;
 use TomaszBartusiakRekrutacjaSmartiveapp\Module\ThumbnailUploader\Application\Service\ThumbnailUploadAdapterInterface;
 
@@ -84,5 +85,10 @@ class SftpAdapter implements ThumbnailUploadAdapterInterface
             $this->password,
             $this->keyFile
         );
+    }
+
+    public static function getServiceIndex(): string
+    {
+        return ThumbnailDestination::SFTP->value;
     }
 }

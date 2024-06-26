@@ -14,4 +14,5 @@ interface ThumbnailUploadAdapterInterface
      * @throws SourceImageNotFoundException
      */
     public function upload(string $sourceImagePath, string $destinationFileName): void;
+    public static function getServiceIndex(): string;
 }
