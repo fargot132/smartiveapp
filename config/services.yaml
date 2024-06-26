@@ -31,20 +31,20 @@ services:
             - '../src/**/Dto/'
             - '../src/**/Migrations/'
 
-    TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail\Adapter\Glide\GlideAdapter:
+    TomaszBartusiakRekrutacjaSmartiveapp\Module\ThumbnailImageCreator\Infrastructure\Adapter\Glide\GlideAdapter:
         arguments:
             $sourceImageDirectory: '%source.image.path%'
             $cacheDirectory: '%kernel.project_dir%/var/cache/glide'
 
     TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail\ImageResizeInterface:
-        alias: 'TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail\Adapter\Glide\GlideAdapter'
+        alias: 'TomaszBartusiakRekrutacjaSmartiveapp\Module\ThumbnailImageCreator\Infrastructure\Adapter\Glide\GlideAdapter'
 
-    TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail\ThumbnailService:
+    TomaszBartusiakRekrutacjaSmartiveapp\Module\ThumbnailImageCreator\Application\Service\ThumbnailService:
         arguments:
             $imageServer: '@TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail\ImageResizeInterface'
 
-    TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail\ThumbnailInterface:
-        alias: 'TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail\ThumbnailService'
+    TomaszBartusiakRekrutacjaSmartiveapp\Module\ThumbnailImageCreator\Application\Service\ThumbnailInterface:
+        alias: 'TomaszBartusiakRekrutacjaSmartiveapp\Module\ThumbnailImageCreator\Application\Service\ThumbnailService'
 
     TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail\Adapter\FileSystem\FileSystemAdapter:
         arguments:

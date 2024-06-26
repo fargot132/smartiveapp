@@ -14,10 +14,13 @@
         "league/glide-symfony": "^2.0",
         "phpseclib/phpseclib": "^3.0",
         "symfony/console": "7.1.*",
+        "symfony/doctrine-messenger": "7.1.*",
         "symfony/dotenv": "7.1.*",
         "symfony/filesystem": "7.1.*",
         "symfony/flex": "^2",
         "symfony/framework-bundle": "7.1.*",
+        "symfony/messenger": "7.1.*",
+        "symfony/monolog-bundle": "^3.10",
         "symfony/runtime": "7.1.*",
         "symfony/yaml": "7.1.*"
     },
@@ -33,12 +36,18 @@
     "autoload": {
         "psr-4": {
             "TomaszBartusiakRekrutacjaSmartiveapp\\": "src/"
-        }
+        },
+        "exclude-from-classmap": [
+            "**/Migrations/"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
             "TomaszBartusiakRekrutacjaSmartiveapp\\Tests\\": "tests/"
-        }
+        },
+        "exclude-from-classmap": [
+            "**/Migrations/"
+        ]
     },
     "replace": {
         "symfony/polyfill-ctype": "*",

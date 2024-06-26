@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail;
 
+use TomaszBartusiakRekrutacjaSmartiveapp\Module\Thumbnail\Domain\Enum\ThumbnailDestination;
 use TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail\Adapter\FileSystem\FileSystemAdapter;
 use TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail\Adapter\Sftp\SftpAdapter;
-use TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail\Enum\ThumbnailDestination;
 
 class ThumbnailUploadAdapterFactory
 {

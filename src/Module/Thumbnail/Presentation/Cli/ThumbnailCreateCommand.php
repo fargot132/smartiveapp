@@ -8,13 +8,9 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail\Dto\ThumbnailDto;
-use TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail\Dto\ThumbnailUploadDto;
-use TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail\Enum\ThumbnailDestination;
-use TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail\Exception\SourceImageFileSystemException;
-use TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail\Exception\SourceImageNotFoundException;
-use TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail\ThumbnailService;
-use TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail\ThumbnailUploaderInterface;
+use TomaszBartusiakRekrutacjaSmartiveapp\Module\Shared\Infrastructure\MessageBus\CommandBus;
+use TomaszBartusiakRekrutacjaSmartiveapp\Module\Thumbnail\Application\Command\CreateThumbnailCommand;
+use TomaszBartusiakRekrutacjaSmartiveapp\Module\Thumbnail\Domain\Enum\ThumbnailDestination;
 
 #[AsCommand(
     name: 'thumbnail:create',
@@ -23,8 +19,7 @@ use TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail\ThumbnailUploade
 class ThumbnailCreateCommand extends Command
 {
     public function __construct(
-        private ThumbnailService $createThumbnailService,
-        private ThumbnailUploaderInterface $thumbnailUploader
+        private CommandBus $commandBus
     ) {
         parent::__construct();
     }
@@ -49,26 +44,10 @@ class ThumbnailCreateCommand extends Command
             return Command::FAILURE;
         }
 
-        $createThumbnailDto = new ThumbnailDto($imageFileName, 200, 200);
-        try {
-            $thumbnailPath = $this->createThumbnailService->create($createThumbnailDto);
-        } catch (SourceImageNotFoundException|SourceImageFileSystemException $e) {
-            $io->error($e->getMessage());
+        $id = $this->commandBus->command(new CreateThumbnailCommand($imageFileName, 200, 200, $destination));
 
-            return Command::FAILURE;
-        }
 
-        try {
-            $this->thumbnailUploader->upload(
-                new ThumbnailUploadDto($thumbnailPath, $imageFileName, $destination)
-            );
-        } catch (\Exception $e) {
-            $io->error('Failed to upload thumbnail: ' . $e->getMessage());
-
-            return Command::FAILURE;
-        }
-
-        $io->success('Thumbnail created and uploaded successfully');
+        $io->success('Thumbnail id: ' . $id);
 
         return Command::SUCCESS;
     }
