@@ -1,3 +1,10 @@
+parameters:
+    mysql_host: '%env(MYSQL_HOST)%'
+    mysql_db: '%env(MYSQL_DATABASE)%'
+    mysql_user: '%env(MYSQL_USER)%'
+    mysql_password: '%env(MYSQL_PASSWORD)%'
+    env(DATABASE_URL): 'mysql://%mysql_user%:%mysql_password%@%mysql_host%:3306/%mysql_db%?serverVersion=mariadb-11.4.0&charset=utf8mb4'
+
 doctrine:
     dbal:
         url: '%env(resolve:DATABASE_URL)%'
