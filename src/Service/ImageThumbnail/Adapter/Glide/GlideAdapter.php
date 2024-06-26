@@ -6,7 +6,6 @@ namespace TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail\Adapter\Gl
 
 use League\Glide\Filesystem\FileNotFoundException;
 use League\Glide\Filesystem\FilesystemException;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail\Dto\ImageResizeOptionsDto;
 use TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail\Enum\ImageResizeMode;
 use TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail\Exception\SourceImageFileSystemException;

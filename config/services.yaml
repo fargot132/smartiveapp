@@ -26,9 +26,10 @@ services:
         resource: '../src/'
         exclude:
             - '../src/DependencyInjection/'
-            - '../src/Entity/'
+            - '../src/**/Entity/'
             - '../src/Kernel.php'
             - '../src/**/Dto/'
+            - '../src/**/Migrations/'
 
     TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail\Adapter\Glide\GlideAdapter:
         arguments:

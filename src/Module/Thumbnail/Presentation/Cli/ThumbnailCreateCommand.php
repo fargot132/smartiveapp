@@ -1,6 +1,6 @@
 <?php
 
-namespace TomaszBartusiakRekrutacjaSmartiveapp\Command;
+namespace TomaszBartusiakRekrutacjaSmartiveapp\Module\Thumbnail\Presentation\Cli;
 
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -8,19 +8,19 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail\Dto\ThumbnailDto;
 use TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail\Dto\ThumbnailUploadDto;
+use TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail\Enum\ThumbnailDestination;
 use TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail\Exception\SourceImageFileSystemException;
 use TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail\Exception\SourceImageNotFoundException;
 use TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail\ThumbnailService;
-use TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail\Dto\ThumbnailDto;
-use TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail\Enum\ThumbnailDestination;
 use TomaszBartusiakRekrutacjaSmartiveapp\Service\ImageThumbnail\ThumbnailUploaderInterface;
 
 #[AsCommand(
-    name: 'create-thumbnail',
+    name: 'thumbnail:create',
     description: 'Add a short description for your command',
 )]
-class CreateThumbnailCommand extends Command
+class ThumbnailCreateCommand extends Command
 {
     public function __construct(
         private ThumbnailService $createThumbnailService,
