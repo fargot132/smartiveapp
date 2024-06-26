@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace TomaszBartusiakRekrutacjaSmartiveapp\Module\ThumbnailUploader\Infrastructure\Adapter;
 
-use Symfony\Component\DependencyInjection\Attribute\TaggedIterator;
+use Symfony\Component\DependencyInjection\Attribute\AutowireIterator;
 use TomaszBartusiakRekrutacjaSmartiveapp\Module\ThumbnailUploader\Application\Service\ThumbnailUploadAdapterInterface;
 
 class ThumbnailUploadAdapterCollection
 {
     private iterable $adapters;
     public function __construct(
-        #[TaggedIterator(tag: 'thumbnail.upload.adapter', defaultIndexMethod: 'getServiceIndex')]
+        #[AutowireIterator(tag: 'thumbnail.upload.adapter', defaultIndexMethod: 'getServiceIndex')]
         iterable $adapters
     ) {
         $this->adapters = $adapters;

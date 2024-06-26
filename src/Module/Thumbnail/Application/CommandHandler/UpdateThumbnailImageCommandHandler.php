@@ -21,7 +21,8 @@ class UpdateThumbnailImageCommandHandler
     )
     {
     }
-    public function __invoke(UpdateThumbnailImageCommand $command)
+
+    public function __invoke(UpdateThumbnailImageCommand $command): void
     {
         $thumbnail = $this->thumbnailRepository->get($command->getThumbnailId());
         if ($thumbnail === null) {
