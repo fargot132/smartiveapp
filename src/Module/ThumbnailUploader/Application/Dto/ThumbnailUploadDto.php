@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace TomaszBartusiakRekrutacjaSmartiveapp\Module\ThumbnailUploader\Application\Dto;
 
-use TomaszBartusiakRekrutacjaSmartiveapp\Module\Thumbnail\Domain\Enum\ThumbnailDestination;
+use TomaszBartusiakRekrutacjaSmartiveapp\Module\Shared\Domain\Enum\ThumbnailDestination;
 
 class ThumbnailUploadDto
 {

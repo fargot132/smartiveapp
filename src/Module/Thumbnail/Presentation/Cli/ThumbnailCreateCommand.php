@@ -8,9 +8,9 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use TomaszBartusiakRekrutacjaSmartiveapp\Module\Shared\Domain\Enum\ThumbnailDestination;
 use TomaszBartusiakRekrutacjaSmartiveapp\Module\Shared\Infrastructure\MessageBus\CommandBus;
 use TomaszBartusiakRekrutacjaSmartiveapp\Module\Thumbnail\Application\Command\CreateThumbnailCommand;
-use TomaszBartusiakRekrutacjaSmartiveapp\Module\Thumbnail\Domain\Enum\ThumbnailDestination;
 
 #[AsCommand(
     name: 'thumbnail:create',

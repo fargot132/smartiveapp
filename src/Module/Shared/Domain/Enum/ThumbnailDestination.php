@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace TomaszBartusiakRekrutacjaSmartiveapp\Module\Thumbnail\Domain\Enum;
+namespace TomaszBartusiakRekrutacjaSmartiveapp\Module\Shared\Domain\Enum;
 
 enum ThumbnailDestination: string
 {

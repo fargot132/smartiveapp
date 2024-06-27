@@ -7,21 +7,21 @@ namespace TomaszBartusiakRekrutacjaSmartiveapp\Module\ThumbnailImageCreator\Appl
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\MessageBusInterface;
+use TomaszBartusiakRekrutacjaSmartiveapp\Module\Shared\Application\ThumbnailInterface;
 use TomaszBartusiakRekrutacjaSmartiveapp\Module\Thumbnail\Domain\Event\ThumbnailCreatedEvent;
-use TomaszBartusiakRekrutacjaSmartiveapp\Module\Thumbnail\Domain\ThumbnailRepositoryInterface;
-use TomaszBartusiakRekrutacjaSmartiveapp\Module\ThumbnailImageCreator\Application\Dto\ThumbnailDto;
+use TomaszBartusiakRekrutacjaSmartiveapp\Module\ThumbnailImageCreator\Application\Dto\CreateThumbnailDto;
 use TomaszBartusiakRekrutacjaSmartiveapp\Module\ThumbnailImageCreator\Application\Event\ThumbnailImageCreatedEvent;
 use TomaszBartusiakRekrutacjaSmartiveapp\Module\ThumbnailImageCreator\Application\Event\ThumbnailImageFailedEvent;
 use TomaszBartusiakRekrutacjaSmartiveapp\Module\ThumbnailImageCreator\Application\Exception\SourceImageFileSystemException;
 use TomaszBartusiakRekrutacjaSmartiveapp\Module\ThumbnailImageCreator\Application\Exception\SourceImageNotFoundException;
-use TomaszBartusiakRekrutacjaSmartiveapp\Module\ThumbnailImageCreator\Application\Service\ThumbnailService;
+use TomaszBartusiakRekrutacjaSmartiveapp\Module\ThumbnailImageCreator\Application\Service\ThumbnailImageService;
 
 #[AsMessageHandler(fromTransport: 'async')]
 class ThumbnailCreatedEventHandler
 {
     public function __construct(
-        private ThumbnailService $createThumbnailService,
-        private ThumbnailRepositoryInterface $thumbnailRepository,
+        private ThumbnailImageService $createThumbnailService,
+        private ThumbnailInterface $thumbnailRepository,
         private LoggerInterface $logger,
         private MessageBusInterface $eventBus
     ) {
@@ -29,15 +29,16 @@ class ThumbnailCreatedEventHandler
 
     public function __invoke(ThumbnailCreatedEvent $event): void
     {
-        $thumbnail = $this->thumbnailRepository->get($event->getThumbnailId());
+        $thumbnail = $this->thumbnailRepository->getThumbnailById($event->getThumbnailId());
+
         if (!$thumbnail) {
             return;
         }
 
-        $createThumbnailDto = new ThumbnailDto(
-            $thumbnail->getImagePath()?->value(),
-            $thumbnail->getWidth()?->value(),
-            $thumbnail->getHeight()?->value()
+        $createThumbnailDto = new CreateThumbnailDto(
+            $thumbnail->getImageFileName(),
+            $thumbnail->getWidth(),
+            $thumbnail->getHeight()
         );
 
         try {

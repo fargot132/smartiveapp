@@ -2,23 +2,29 @@
 
 declare(strict_types=1);
 
-namespace TomaszBartusiakRekrutacjaSmartiveapp\Module\Thumbnail\Application\Command;
+namespace TomaszBartusiakRekrutacjaSmartiveapp\Module\Shared\Application\Dto;
 
 use TomaszBartusiakRekrutacjaSmartiveapp\Module\Shared\Domain\Enum\ThumbnailDestination;
 
-class CreateThumbnailCommand
+class ThumbnailDto
 {
     public function __construct(
-        private string $imagePath,
+        private int $id,
+        private string $imageFileName,
         private int $width,
         private int $height,
         private ThumbnailDestination $destination
     ) {
     }
 
-    public function getImagePath(): string
+    public function getId(): int
     {
-        return $this->imagePath;
+        return $this->id;
+    }
+
+    public function getImageFileName(): string
+    {
+        return $this->imageFileName;
     }
 
     public function getWidth(): int

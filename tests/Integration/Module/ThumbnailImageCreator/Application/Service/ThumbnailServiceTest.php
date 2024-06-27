@@ -5,24 +5,24 @@ declare(strict_types=1);
 namespace TomaszBartusiakRekrutacjaSmartiveapp\Tests\Integration\Module\ThumbnailImageCreator\Application\Service;
 
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use TomaszBartusiakRekrutacjaSmartiveapp\Module\ThumbnailImageCreator\Application\Dto\ThumbnailDto;
+use TomaszBartusiakRekrutacjaSmartiveapp\Module\ThumbnailImageCreator\Application\Dto\CreateThumbnailDto;
 use TomaszBartusiakRekrutacjaSmartiveapp\Module\ThumbnailImageCreator\Application\Enum\ImageResizeMode;
-use TomaszBartusiakRekrutacjaSmartiveapp\Module\ThumbnailImageCreator\Application\Service\ThumbnailService;
+use TomaszBartusiakRekrutacjaSmartiveapp\Module\ThumbnailImageCreator\Application\Service\ThumbnailImageService;
 use TomaszBartusiakRekrutacjaSmartiveapp\Module\ThumbnailImageCreator\Infrastructure\Adapter\Glide\GlideAdapter;
 use TomaszBartusiakRekrutacjaSmartiveapp\Module\ThumbnailImageCreator\Infrastructure\Adapter\Glide\GlideServerFactory;
 
 class ThumbnailServiceTest extends KernelTestCase
 {
-    private ThumbnailService $thumbnailService;
+    private ThumbnailImageService $thumbnailService;
 
     /**
-     * @return array<string, array{thumbnailDto: ThumbnailDto, thumbnailFile: string}>
+     * @return array<string, array{thumbnailDto: CreateThumbnailDto, thumbnailFile: string}>
      */
     public function provideCreateThumbnail(): array
     {
         return [
             'test_image_1.jpg' => [
-                'thumbnailDto' => new ThumbnailDto(
+                'thumbnailDto' => new CreateThumbnailDto(
                     'test_image_1.jpg',
                     100,
                     100,
@@ -31,7 +31,7 @@ class ThumbnailServiceTest extends KernelTestCase
                 'thumbnailFile' => 'test_thumbnail_1.jpg',
             ],
             'test_image_2.png' => [
-                'thumbnailDto' => new ThumbnailDto(
+                'thumbnailDto' => new CreateThumbnailDto(
                     'test_image_2.png',
                     200,
                     200,
@@ -52,13 +52,13 @@ class ThumbnailServiceTest extends KernelTestCase
 
         $this->removeDirectory($cacheDirectory);
         $glideAdapter = new GlideAdapter($glideServerFactory, $sourceImageDirectory, $cacheDirectory);
-        $this->thumbnailService = new ThumbnailService($glideAdapter);
+        $this->thumbnailService = new ThumbnailImageService($glideAdapter);
     }
 
     /**
      * @dataProvider provideCreateThumbnail
      */
-    public function testCreateThumbnail(ThumbnailDto $dto, string $thumbnailFile): void
+    public function testCreateThumbnail(CreateThumbnailDto $dto, string $thumbnailFile): void
     {
         $thumbnailPath = $this->thumbnailService->create($dto);
         $this->assertStringContainsString('var/cache/test/glide/', $thumbnailPath);

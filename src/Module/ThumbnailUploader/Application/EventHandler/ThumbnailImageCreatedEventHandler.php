@@ -7,7 +7,7 @@ namespace TomaszBartusiakRekrutacjaSmartiveapp\Module\ThumbnailUploader\Applicat
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\MessageBusInterface;
-use TomaszBartusiakRekrutacjaSmartiveapp\Module\Thumbnail\Domain\ThumbnailRepositoryInterface;
+use TomaszBartusiakRekrutacjaSmartiveapp\Module\Shared\Application\ThumbnailInterface;
 use TomaszBartusiakRekrutacjaSmartiveapp\Module\ThumbnailImageCreator\Application\Event\ThumbnailImageCreatedEvent;
 use TomaszBartusiakRekrutacjaSmartiveapp\Module\ThumbnailUploader\Application\Dto\ThumbnailUploadDto;
 use TomaszBartusiakRekrutacjaSmartiveapp\Module\ThumbnailUploader\Application\Event\ThumbnailUploadedEvent;
@@ -19,7 +19,7 @@ class ThumbnailImageCreatedEventHandler
 {
     public function __construct(
         private ThumbnailUploaderInterface $thumbnailUploader,
-        private ThumbnailRepositoryInterface $thumbnailRepository,
+        private ThumbnailInterface $thumbnailRepository,
         private LoggerInterface $logger,
         private MessageBusInterface $eventBus
     ) {
@@ -27,7 +27,7 @@ class ThumbnailImageCreatedEventHandler
 
     public function __invoke(ThumbnailImageCreatedEvent $event): void
     {
-        $thumbnail = $this->thumbnailRepository->get($event->getThumbnailId());
+        $thumbnail = $this->thumbnailRepository->getThumbnailById($event->getThumbnailId());
         if (!$thumbnail) {
             return;
         }
@@ -36,7 +36,7 @@ class ThumbnailImageCreatedEventHandler
             $this->thumbnailUploader->upload(
                 new ThumbnailUploadDto(
                     $event->getThumbnailPath(),
-                    $thumbnail->getImagePath()?->value(),
+                    $thumbnail->getImageFileName(),
                     $thumbnail->getDestination()
                 )
             );

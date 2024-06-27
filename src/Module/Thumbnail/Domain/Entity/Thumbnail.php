@@ -3,7 +3,7 @@
 namespace TomaszBartusiakRekrutacjaSmartiveapp\Module\Thumbnail\Domain\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use TomaszBartusiakRekrutacjaSmartiveapp\Module\Thumbnail\Domain\Enum\ThumbnailDestination;
+use TomaszBartusiakRekrutacjaSmartiveapp\Module\Shared\Domain\Enum\ThumbnailDestination;
 use TomaszBartusiakRekrutacjaSmartiveapp\Module\Thumbnail\Domain\Enum\ThumbnailStatus;
 use TomaszBartusiakRekrutacjaSmartiveapp\Module\Thumbnail\Domain\ValueObject\ErrorMessageVO;
 use TomaszBartusiakRekrutacjaSmartiveapp\Module\Thumbnail\Domain\ValueObject\HeightVO;
