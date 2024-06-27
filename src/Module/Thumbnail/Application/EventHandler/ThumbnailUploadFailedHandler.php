@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace TomaszBartusiakRekrutacjaSmartiveapp\Module\Thumbnail\Application\EventHandler;
 
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
+use TomaszBartusiakRekrutacjaSmartiveapp\Module\Shared\Domain\Event\ThumbnailUploadFailedEvent;
 use TomaszBartusiakRekrutacjaSmartiveapp\Module\Shared\Infrastructure\MessageBus\CommandBus;
 use TomaszBartusiakRekrutacjaSmartiveapp\Module\Thumbnail\Application\Command\UpdateThumbnailFailedCommand;
-use TomaszBartusiakRekrutacjaSmartiveapp\Module\ThumbnailUploader\Application\Event\ThumbnailUploadFailedEvent;
 
 #[AsMessageHandler]
 class ThumbnailUploadFailedHandler

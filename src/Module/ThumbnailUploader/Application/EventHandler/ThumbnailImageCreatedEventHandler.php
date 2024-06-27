@@ -8,10 +8,10 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\MessageBusInterface;
 use TomaszBartusiakRekrutacjaSmartiveapp\Module\Shared\Application\ThumbnailInterface;
-use TomaszBartusiakRekrutacjaSmartiveapp\Module\ThumbnailImageCreator\Application\Event\ThumbnailImageCreatedEvent;
+use TomaszBartusiakRekrutacjaSmartiveapp\Module\Shared\Domain\Event\ThumbnailImageCreatedEvent;
+use TomaszBartusiakRekrutacjaSmartiveapp\Module\Shared\Domain\Event\ThumbnailUploadedEvent;
+use TomaszBartusiakRekrutacjaSmartiveapp\Module\Shared\Domain\Event\ThumbnailUploadFailedEvent;
 use TomaszBartusiakRekrutacjaSmartiveapp\Module\ThumbnailUploader\Application\Dto\ThumbnailUploadDto;
-use TomaszBartusiakRekrutacjaSmartiveapp\Module\ThumbnailUploader\Application\Event\ThumbnailUploadedEvent;
-use TomaszBartusiakRekrutacjaSmartiveapp\Module\ThumbnailUploader\Application\Event\ThumbnailUploadFailedEvent;
 use TomaszBartusiakRekrutacjaSmartiveapp\Module\ThumbnailUploader\Application\Service\ThumbnailUploaderInterface;
 
 #[AsMessageHandler]

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace TomaszBartusiakRekrutacjaSmartiveapp\Module\ThumbnailUploader\Application\Event;
+namespace TomaszBartusiakRekrutacjaSmartiveapp\Module\Shared\Domain\Event;
 
 class ThumbnailUploadedEvent
 {

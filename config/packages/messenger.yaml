@@ -19,7 +19,7 @@ framework:
 
 
         routing:
-            TomaszBartusiakRekrutacjaSmartiveapp\Module\Thumbnail\Domain\Event\ThumbnailCreatedEvent: [sync, async]
+            TomaszBartusiakRekrutacjaSmartiveapp\Module\Shared\Domain\Event\ThumbnailCreatedEvent: [sync, async]
 
 # when@test:
 #    framework:
